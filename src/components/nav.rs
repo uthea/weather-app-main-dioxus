@@ -19,8 +19,8 @@ pub fn Nav() -> Element {
             button {
                 // TODO: dropdown action
                 div {
-                    class: "flex gap-2 items-center p-1.5 rounded-lg",
-                    style: "background-color: hsl(243, 23%, 30%)",
+                    class: "flex gap-2 items-center p-2 rounded-lg",
+                    style: "background-color: hsl(243, 23%, 24%)",
                     img { src: UNITS }
                     p { style: "color: hsl(0, 0%, 100%)", "Units" }
                     img { src: DROPDOWN_ICON }
