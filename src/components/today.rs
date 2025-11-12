@@ -28,24 +28,24 @@ pub fn TodayHeader() -> Element {
 #[component]
 pub fn TodayDetail() -> Element {
     rsx! {
-        div { class: "flex gap-4 justify-between",
+        div { class: "flex gap-5 justify-between",
 
             div {
-                class: "flex flex-col gap-3 pt-2 pb-2 pl-4 pr-15 rounded-xl",
+                class: "flex flex-col gap-3 pt-2 pb-2 pl-4 pr-15 rounded-xl grow",
                 background_color: "hsl(243, 23%, 24%)",
                 p { class: "text-sm", color: "hsl(250, 6%, 70%)", "Feels like" }
                 p { class: "text-2xl", color: "hsl(250, 6%, 84%)", "20°" }
             }
 
             div {
-                class: "flex flex-col gap-3 pt-2 pb-2 pl-4 pr-15 rounded-xl",
+                class: "flex flex-col gap-3 pt-2 pb-2 pl-4 pr-15 rounded-xl grow",
                 background_color: "hsl(243, 23%, 24%)",
                 p { class: "text-sm", color: "hsl(250, 6%, 70%)", "Humidity" }
                 p { class: "text-2xl", color: "hsl(250, 6%, 84%)", "46%" }
             }
 
             div {
-                class: "flex flex-col gap-3 pt-2 pb-2 pl-4 pr-15 rounded-xl",
+                class: "flex flex-col gap-3 pt-2 pb-2 pl-4 pr-15 rounded-xl grow",
                 background_color: "hsl(243, 23%, 24%)",
                 p { class: "text-sm", color: "hsl(250, 6%, 70%)", "Wind" }
                 p { class: "text-2xl", color: "hsl(250, 6%, 84%)", "14 km/h" }
@@ -53,7 +53,7 @@ pub fn TodayDetail() -> Element {
 
 
             div {
-                class: "flex flex-col gap-3 pt-2 pb-2 pl-4 pr-15 rounded-xl",
+                class: "flex flex-col gap-3 pt-2 pb-2 pl-4 pr-15 rounded-xl grow",
                 background_color: "hsl(243, 23%, 24%)",
                 p { class: "text-sm", color: "hsl(250, 6%, 70%)", "Precipitation" }
                 p { class: "text-2xl", color: "hsl(250, 6%, 84%)", "0 mm" }
