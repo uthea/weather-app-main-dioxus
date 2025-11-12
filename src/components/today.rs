@@ -8,7 +8,7 @@ pub fn TodayHeader() -> Element {
     rsx! {
         div {
             background_image: "url({TODAY_BG})",
-            class: "bg-no-repeat rounded-r-3xl",
+            class: "bg-no-repeat rounded-r-3xl bg-cover",
 
             div { class: "flex pt-28 pb-24 justify-between pl-5 pr-5",
                 div { class: "flex flex-col gap-1.5",
