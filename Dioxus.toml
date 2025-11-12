@@ -2,6 +2,7 @@
 out_dir = "dist"
 
 [web.app]
+base_path = "weather-app-main-dioxus"
 
 # HTML title tag content
 title = "weather-app"
