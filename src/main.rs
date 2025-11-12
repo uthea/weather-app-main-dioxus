@@ -31,7 +31,26 @@ fn App() -> Element {
         document::Link { rel: "icon", href: FAVICON }
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
 
-        Nav {}
+        div { style: "background-color: hsl(243, 96%, 9%); height: 100vh",
+            div {
+                class: "flex flex-col  gap-7",
+                style: "margin: 0 auto; width: 90%;",
+                Nav {}
+                Search {}
+
+                div { class: "flex gap-5",
+                    div { class: "flex flex-col gap-5 w-[70%]",
+                        TodayHeader {}
+                        TodayDetail {}
+                        DailyForcast {}
+                    }
+
+                    HourlyForcast {}
+                }
+            }
+        }
+
+
 
     }
 }
