@@ -38,8 +38,8 @@ fn App() -> Element {
                 Nav {}
                 Search {}
 
-                div { class: "flex gap-5 justify-center",
-                    div { class: "flex flex-col gap-5 w-[70%]",
+                div { class: "flex gap-5 justify-between",
+                    div { class: "flex flex-col gap-5 w-[80%]",
                         TodayHeader {}
                         TodayDetail {}
                         DailyForcast {}
