@@ -3,9 +3,11 @@
 use dioxus::prelude::*;
 
 use components::*;
+use model::*;
 
 /// Define a components module that contains all shared components for our app.
 mod components;
+mod model;
 
 // We can import assets in dioxus with the `asset!` macro. This macro takes a path to an asset relative to the crate root.
 // The macro returns an `Asset` type that will display as the path to the asset in the browser or a local path in desktop bundles.
@@ -36,7 +38,7 @@ fn App() -> Element {
                 class: "flex flex-col  gap-7",
                 style: "margin: 0 auto; width: 90%;",
                 Nav {}
-                Search {}
+                Search { onsearch: move |text| info!(text) }
 
                 div { class: "flex gap-5 justify-between",
                     div { class: "flex flex-col gap-5 w-[80%]",
