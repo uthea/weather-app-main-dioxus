@@ -46,7 +46,7 @@ pub fn Search(onselect: EventHandler<SearchResult>) -> Element {
                         class: "bg-size-[14px] pl-8 pt-1 pb-1 bg-no-repeat rounded-md",
                         placeholder: "Search for a place...",
                         value: "{text}",
-                        onchange: move |e| {
+                        oninput: move |e| {
                             let value = e.value();
 
                             if value.is_empty() {
@@ -58,7 +58,7 @@ pub fn Search(onselect: EventHandler<SearchResult>) -> Element {
 
                     SearchDropdown {
                         loading,
-                        search_result: search_result(),
+                        search_result,
                         onselect: move |value| {
                             search_result.set(None);
                             onselect.call(value);
@@ -92,7 +92,7 @@ pub fn Search(onselect: EventHandler<SearchResult>) -> Element {
 #[component]
 fn SearchDropdown(
     loading: ReadSignal<bool>,
-    search_result: Option<Vec<SearchResult>>,
+    search_result: ReadSignal<Option<Vec<SearchResult>>>,
     onselect: EventHandler<SearchResult>,
 ) -> Element {
     if loading() {
@@ -105,11 +105,11 @@ fn SearchDropdown(
         };
     }
 
-    if search_result.is_none() {
-        return rsx!();
+    if search_result().is_none() {
+        return rsx! {};
     }
 
-    let search_result = search_result.unwrap();
+    let search_result = search_result().unwrap();
 
     rsx! {
         div {
