@@ -4,7 +4,7 @@ use dioxus::prelude::*;
 const SEARCH_ICON: Asset = asset!("/assets/images/icon-search.svg");
 
 #[component]
-pub fn Search(onsearch: EventHandler<String>) -> Element {
+pub fn Search(onselect: EventHandler<SearchResult>) -> Element {
     let mut text = use_signal(|| "".to_string());
     let mut search_result = use_signal(|| None::<Vec<SearchResult>>);
 
@@ -35,7 +35,7 @@ pub fn Search(onsearch: EventHandler<String>) -> Element {
             h1 { class: "text-3xl", style: "color: hsl(0, 0%, 100%)",
                 "How's the sky looking today ?"
             }
-            div { class: "flex items-center gap-2",
+            div { class: "flex items-center gap-2 relative",
                 div {
                     input {
                         background_color: "hsl(243, 23%, 24%)",
@@ -58,7 +58,13 @@ pub fn Search(onsearch: EventHandler<String>) -> Element {
                     if search_result().is_none() {
                         div {}
                     } else {
-                        SearchDropdown { search_result: search_result().unwrap() }
+                        SearchDropdown {
+                            search_result: search_result().unwrap(),
+                            onselect: move |value| {
+                                search_result.set(None);
+                                onselect.call(value);
+                            },
+                        }
                     }
                 
 
@@ -68,10 +74,7 @@ pub fn Search(onsearch: EventHandler<String>) -> Element {
                     color: "hsl(0, 0%, 100%)",
                     background_color: "hsl(233, 67%, 56%)",
                     class: "py-1.5 px-4 rounded-md text-sm",
-                    onclick: move |_| async move {
-                        *search_result.write() = fetch_result().await;
-                        onsearch.call(text());
-                    },
+                    onclick: move |_| async move { search_result.set(fetch_result().await) },
                     "Search"
                 }
             }
@@ -84,20 +87,37 @@ pub fn Search(onsearch: EventHandler<String>) -> Element {
 }
 
 #[component]
-fn SearchDropdown(search_result: Vec<SearchResult>) -> Element {
+fn SearchDropdown(
+    search_result: Vec<SearchResult>,
+    onselect: EventHandler<SearchResult>,
+) -> Element {
     rsx! {
         div {
-            class: "flex flex-col gap-2 p-1",
+            class: "flex flex-col gap-2 p-2 absolute w-63 top-10 rounded-md",
             background_color: "hsl(243, 23%, 24%)",
-            div { class: "p-1",
-                span { color: "hsl(0, 0%, 100%)",
-                    if search_result.is_empty() {
-                        "Not Found"
-                    } else {
-                        "Found"
+
+            if search_result.is_empty() {
+                div {
+                    class: "p-2 rounded-md",
+                    background_color: "hsl(243, 23%, 30%)",
+                    span { class: "text-sm", color: "hsl(0, 0%, 100%)", "Not Found" }
+                }
+            } else {
+                for result in search_result {
+                    div {
+                        class: "p-2 rounded-md",
+                        background_color: "hsl(243, 23%, 30%)",
+                        span {
+                            class: "text-sm",
+                            color: "hsl(0, 0%, 100%)",
+                            onclick: move |_| onselect.call(result.clone()),
+                            "{result.name} ({result.latitude:.2}°N {result.longitude:.2}°E)"
+                        }
                     }
                 }
             }
         }
+
+
     }
 }

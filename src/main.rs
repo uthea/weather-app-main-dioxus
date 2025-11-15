@@ -38,7 +38,7 @@ fn App() -> Element {
                 class: "flex flex-col  gap-7",
                 style: "margin: 0 auto; width: 90%;",
                 Nav {}
-                Search { onsearch: move |text| info!(text) }
+                Search { onselect: move |weather| info!("{weather:?}") }
 
                 div { class: "flex gap-5 justify-between",
                     div { class: "flex flex-col gap-5 w-[80%]",
