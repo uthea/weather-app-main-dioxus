@@ -72,6 +72,7 @@ pub fn Search(onselect: EventHandler<SearchResult>) -> Element {
                     color: "hsl(0, 0%, 100%)",
                     background_color: "hsl(233, 67%, 56%)",
                     class: "py-1.5 px-4 rounded-md text-sm",
+                    disabled: loading,
                     onclick: move |_| async move {
                         loading.set(true);
                         search_result.set(fetch_result().await);
