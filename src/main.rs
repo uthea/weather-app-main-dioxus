@@ -3,7 +3,6 @@
 use dioxus::prelude::*;
 
 use components::*;
-use model::*;
 
 /// Define a components module that contains all shared components for our app.
 mod components;

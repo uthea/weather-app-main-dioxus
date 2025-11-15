@@ -7,6 +7,7 @@ const SEARCH_ICON: Asset = asset!("/assets/images/icon-search.svg");
 pub fn Search(onselect: EventHandler<SearchResult>) -> Element {
     let mut text = use_signal(|| "".to_string());
     let mut search_result = use_signal(|| None::<Vec<SearchResult>>);
+    let mut loading = use_signal(|| false);
 
     let fetch_result = move || async move {
         if text().is_empty() {
@@ -55,16 +56,13 @@ pub fn Search(onselect: EventHandler<SearchResult>) -> Element {
                         },
                     }
 
-                    if search_result().is_none() {
-                        div {}
-                    } else {
-                        SearchDropdown {
-                            search_result: search_result().unwrap(),
-                            onselect: move |value| {
-                                search_result.set(None);
-                                onselect.call(value);
-                            },
-                        }
+                    SearchDropdown {
+                        loading,
+                        search_result: search_result(),
+                        onselect: move |value| {
+                            search_result.set(None);
+                            onselect.call(value);
+                        },
                     }
                 
 
@@ -74,7 +72,11 @@ pub fn Search(onselect: EventHandler<SearchResult>) -> Element {
                     color: "hsl(0, 0%, 100%)",
                     background_color: "hsl(233, 67%, 56%)",
                     class: "py-1.5 px-4 rounded-md text-sm",
-                    onclick: move |_| async move { search_result.set(fetch_result().await) },
+                    onclick: move |_| async move {
+                        loading.set(true);
+                        search_result.set(fetch_result().await);
+                        loading.set(false);
+                    },
                     "Search"
                 }
             }
@@ -88,14 +90,30 @@ pub fn Search(onselect: EventHandler<SearchResult>) -> Element {
 
 #[component]
 fn SearchDropdown(
-    search_result: Vec<SearchResult>,
+    loading: ReadSignal<bool>,
+    search_result: Option<Vec<SearchResult>>,
     onselect: EventHandler<SearchResult>,
 ) -> Element {
+    if loading() {
+        return rsx! {
+            div {
+                class: "flex flex-col gap-2 p-2 absolute w-63 top-10 rounded-md",
+                background_color: "hsl(243, 23%, 24%)",
+                span { class: "text-sm", color: "hsl(0, 0%, 100%)", "Loading..." }
+            }
+        };
+    }
+
+    if search_result.is_none() {
+        return rsx!();
+    }
+
+    let search_result = search_result.unwrap();
+
     rsx! {
         div {
             class: "flex flex-col gap-2 p-2 absolute w-63 top-10 rounded-md",
             background_color: "hsl(243, 23%, 24%)",
-
             if search_result.is_empty() {
                 div {
                     class: "p-2 rounded-md",
